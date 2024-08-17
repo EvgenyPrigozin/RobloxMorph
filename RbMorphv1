@@ -1,52 +1,50 @@
-
+-- LocalScript
 local function createBall(name, color, size)
-	local ball = Instance.new("Part")
-	ball.Name = name
-	ball.Size = size
-	ball.Shape = Enum.PartType.Ball
-	ball.Color = color
-	ball.Material = Enum.Material.SmoothPlastic  
-	ball.Anchored = false
-	ball.CanCollide = false
-	ball.Parent = workspace
-	return ball
+    local ball = Instance.new("Part")
+    ball.Name = name
+    ball.Size = size
+    ball.Shape = Enum.PartType.Ball
+    ball.Color = color
+    ball.Material = Enum.Material.SmoothPlastic  
+    ball.Anchored = false
+    ball.CanCollide = false
+    ball.Parent = workspace
+    return ball
 end
 
-
-local ball1 = createBall("Ball1", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5)) -- Размер увеличен
-local ball2 = createBall("Ball2", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5)) -- Размер увеличен
-local ball3 = createBall("Ball3", Color3.fromRGB(226, 90, 90), Vector3.new(0.4, 0.4, 0.4)) -- Размер увеличен
-local ball4 = createBall("Ball4", Color3.fromRGB(226, 90, 90), Vector3.new(0.4, 0.4, 0.4)) -- Размер увеличен
-local ball5 = createBall("Ball5", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5)) -- Размер увеличен
-local ball6 = createBall("Ball6", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5)) -- Размер увеличен
+local ball1 = createBall("Ball1", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5))
+local ball2 = createBall("Ball2", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5))
+local ball3 = createBall("Ball3", Color3.fromRGB(226, 90, 90), Vector3.new(0.4, 0.4, 0.4))
+local ball4 = createBall("Ball4", Color3.fromRGB(226, 90, 90), Vector3.new(0.4, 0.4, 0.4))
+local ball5 = createBall("Ball5", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5))
+local ball6 = createBall("Ball6", Color3.fromRGB(222, 184, 135), Vector3.new(1.5, 1.5, 1.5))
 
 local function updateBallPositions(character, time, isWalking)
-	local torso = character:FindFirstChild("Torso")
-	if not torso then return end
+    local torso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+    if not torso then return end
 
-	local distanceBetweenBalls = 0.4 
-	local distanceFromPlayer = 0.6 
-	local heightOffset = 0.2  
-	local heightOffsetBall3 = -0.1 
-	local heightOffsetBall4 = -0.1 
-	local heightOffsetBall5 = -1  
-	local heightOffsetBall6 = -1  
+    local distanceBetweenBalls = 0.4 
+    local distanceFromPlayer = 0.6 
+    local heightOffset = 0.2  
+    local heightOffsetBall3 = -0.1 
+    local heightOffsetBall4 = -0.1 
+    local heightOffsetBall5 = -1  
+    local heightOffsetBall6 = -1  
 
-	local period = 0.3
+    local period = 0.3
+    local amplitude = 0.05
 
-	local amplitude = 0.05
+    local offset = 0
+    if isWalking then
+        offset = math.sin(time * (2 * math.pi / period)) * amplitude
+    end
 
-	local offset = 0
-	if isWalking then
-		offset = math.sin(time * (2 * math.pi / period)) * amplitude
-	end
-
-	ball1.Position = torso.Position + torso.CFrame.LookVector * distanceFromPlayer + torso.CFrame.RightVector * distanceBetweenBalls + torso.CFrame.UpVector * (heightOffset + offset)
-	ball2.Position = torso.Position + torso.CFrame.LookVector * distanceFromPlayer + torso.CFrame.RightVector * -distanceBetweenBalls + torso.CFrame.UpVector * (heightOffset + offset)
-	ball3.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer + 0.6) - torso.CFrame.RightVector * 0.7 + torso.CFrame.UpVector * (heightOffsetBall3 + offset)
-	ball4.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer + 0.6) + torso.CFrame.RightVector * 0.7 + torso.CFrame.UpVector * (heightOffsetBall4 + offset)
-	ball5.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer - 1) + torso.CFrame.RightVector * 0.5 + torso.CFrame.UpVector * (heightOffsetBall5 + offset)
-	ball6.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer - 1) - torso.CFrame.RightVector * 0.5 + torso.CFrame.UpVector * (heightOffsetBall6 + offset)
+    ball1.Position = torso.Position + torso.CFrame.LookVector * distanceFromPlayer + torso.CFrame.RightVector * distanceBetweenBalls + torso.CFrame.UpVector * (heightOffset + offset)
+    ball2.Position = torso.Position + torso.CFrame.LookVector * distanceFromPlayer + torso.CFrame.RightVector * -distanceBetweenBalls + torso.CFrame.UpVector * (heightOffset + offset)
+    ball3.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer + 0.6) - torso.CFrame.RightVector * 0.7 + torso.CFrame.UpVector * (heightOffsetBall3 + offset)
+    ball4.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer + 0.6) + torso.CFrame.RightVector * 0.7 + torso.CFrame.UpVector * (heightOffsetBall4 + offset)
+    ball5.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer - 1) + torso.CFrame.RightVector * 0.5 + torso.CFrame.UpVector * (heightOffsetBall5 + offset)
+    ball6.Position = torso.Position + torso.CFrame.LookVector * (distanceFromPlayer - 1) - torso.CFrame.RightVector * 0.5 + torso.CFrame.UpVector * (heightOffsetBall6 + offset)
 end
 
 local player = game.Players.LocalPlayer
@@ -54,15 +52,15 @@ local character = player.Character or player.CharacterAdded:Wait()
 local startTime = tick()
 
 local function isPlayerWalking()
-	local humanoid = character:FindFirstChildOfClass("Humanoid")
-	if not humanoid then return false end
-	return humanoid.MoveDirection.Magnitude > 0
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then return false end
+    return humanoid.MoveDirection.Magnitude > 0
 end
 
 game:GetService("RunService").Heartbeat:Connect(function()
-	if character and character:FindFirstChild("Torso") then
-		local currentTime = tick() - startTime
-		local walking = isPlayerWalking()
-		updateBallPositions(character, currentTime, walking)
-	end
+    if character and character:FindFirstChild("Torso") then
+        local currentTime = tick() - startTime
+        local walking = isPlayerWalking()
+        updateBallPositions(character, currentTime, walking)
+    end
 end)
